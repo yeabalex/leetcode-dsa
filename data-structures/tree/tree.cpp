@@ -178,8 +178,7 @@ int main()
     bt->insert(15);
     bt->inOrderTraversal(bt->root);
     // bt->print();
-    //  Here you can implement a method to print the tree nodes if desired.
 
-    delete bt; // This will now free the nodes of the tree properly.
+    delete bt;
     return 0;
 }
