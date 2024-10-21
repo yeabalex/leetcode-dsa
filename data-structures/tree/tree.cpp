@@ -6,7 +6,7 @@ using namespace std;
 template <typename T>
 class Node
 {
-public:
+public: 
     T value;
     Node<T> *left;
     Node<T> *right;
@@ -89,17 +89,17 @@ public:
         }
     }
 
-    bool search(Node<T> *root, T value)
+    Node<T>* search(Node<T> *root, T value)
     {
         if (!root)
         {
-            return 0;
+            return nullptr;
         }
         else
         {
             if (root->value == value)
             {
-                return true;
+                return root;
             }
             else if (value < root->value)
             {
@@ -145,7 +145,7 @@ public:
     void levelOrder()
     {
         if (!root)
-            return
+            return;
         vector<Node<T> *> queue; 
         queue.push_back(root);   
 
@@ -167,6 +167,49 @@ public:
             }
         }
     }
+
+    T max(Node<T>* root){
+        if(!(root->right)){
+            return root->value;
+        }
+        return this->max(root->right);   
+    }
+
+    T min(Node<T>* root){
+        if(!(root->left)){
+            return root->value;
+        }
+        return this->min(root->left);   
+    }     
+
+void deleteValue(T value){
+    this->root = this->deleteNode(this->root, value);
+}
+
+Node<T>* deleteNode(Node<T>* root, T value){
+    if(root == nullptr){
+        return root;
+    }
+
+    if(value < root->value){
+        root->left = this->deleteNode(root->left, value);
+    } else if(value > root->value){
+        root->right = this->deleteNode(root->right, value);
+    } else {
+        if(!root->left){
+            return root->right; 
+        }
+        if(!root->right){
+            return root->left;  
+        }
+        root->value = this->min(root->right);
+        root->right = this->deleteNode(root->right, root->value);
+    }
+
+    return root;
+}
+
+    
 };
 
 int main()
@@ -176,7 +219,8 @@ int main()
     bt->insert(10);
     bt->insert(5);
     bt->insert(15);
-    bt->inOrderTraversal(bt->root);
+    cout<<bt->min(bt->root);
+    //bt->inOrderTraversal(bt->root);
     // bt->print();
 
     delete bt;
